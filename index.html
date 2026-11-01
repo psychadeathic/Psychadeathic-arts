@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychadeathic Arts // Stage 1 Launch</title>
+    <style>
+        :root {
+            --bg-obsidian: #0a0d14;
+            --panel-obsidian: #121824;
+            --electric-cyan: #00f0ff;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(0, 240, 255, 0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-obsidian); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        header { border-bottom: 1px solid var(--border-glow); background: rgba(10, 13, 20, 0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; }
+        .logo-area { display: flex; align-items: center; gap: 1rem; }
+        .logo-badge { background: var(--electric-cyan); color: var(--bg-obsidian); font-weight: 800; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.9rem; letter-spacing: 1px; }
+        .brand-title { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: var(--electric-cyan); }
+        
+        .hero { max-width: 1200px; margin: 4rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; }
+        .hero-content h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 30%, var(--electric-cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-content p { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 2rem; }
+        .btn-group { display: flex; gap: 1rem; }
+        .btn { background: transparent; border: 2px solid var(--electric-cyan); color: var(--electric-cyan); padding: 0.75rem 1.75rem; font-weight: 600; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block; }
+        .btn:hover { background: var(--electric-cyan); color: var(--bg-obsidian); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+        .btn-solid { background: var(--electric-cyan); color: var(--bg-obsidian); }
+        
+        .hero-card { background: var(--panel-obsidian); border: 1px solid var(--border-glow); border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .section { max-width: 1200px; margin: 6rem auto; padding: 0 2rem; }
+        .section-header { margin-bottom: 3rem; border-left: 4px solid var(--electric-cyan); padding-left: 1rem; }
+        .section-header h2 { font-size: 2rem; font-weight: 750; }
+        .section-header p { color: var(--text-muted); }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+        .card { background: var(--panel-obsidian); border: 1px solid var(--border-glow); border-radius: 8px; padding: 2rem; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-5px); border-color: var(--electric-cyan); }
+        .card h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .price { font-size: 1.5rem; font-weight: 700; color: var(--electric-cyan); margin-bottom: 1rem; }
+
+        .tracklist { background: var(--panel-obsidian); border: 1px solid var(--border-glow); border-radius: 8px; padding: 1.5rem; }
+        .track-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .track-item:last-child { border-bottom: none; }
+        .track-left { display: flex; gap: 1rem; align-items: center; }
+        .track-num { color: var(--electric-cyan); font-weight: 600; font-size: 0.9rem; }
+
+        .player-bar { background: var(--panel-obsidian); border-top: 1px solid var(--border-glow); padding: 1.5rem 2rem; position: fixed; bottom: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; z-index: 1000; }
+        .player-info { display: flex; align-items: center; gap: 1rem; }
+        .track-title-active { font-weight: 600; font-size: 0.95rem; }
+        .track-artist-active { color: var(--text-muted); font-size: 0.8rem; }
+        .player-controls { display: flex; gap: 1rem; align-items: center; }
+        .control-btn { background: none; border: none; color: var(--text-main); font-size: 1.2rem; cursor: pointer; }
+        .control-btn:hover { color: var(--electric-cyan); }
+
+        footer { text-align: center; padding: 4rem 2rem; color: var(--text-muted); border-top: 1px solid var(--border-glow); margin-bottom: 8rem; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <span class="logo-badge">S/S</span>
+                <span class="brand-title">Psychadeathic Arts</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#audio">Audio & Tracklist</a></li>
+                    <li><a href="#merch">Print-on-Demand Merch</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Stage 1 Launch // Audio & Print-on-Demand Merch</h1>
+            <p>Welcome to the initial release phase of Psychadeathic Arts. Explore original audio tracks, immersive tracklists, and custom print-on-demand apparel and sticker packs.</p>
+            <div class="btn-group">
+                <a href="#audio" class="btn btn-solid">Listen & Tracklists</a>
+                <a href="#merch" class="btn">Explore Merch</a>
+            </div>
+        </div>
+        <div class="hero-card">
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--electric-cyan); margin-bottom: 1rem;">AUDIO // MERCH</div>
+            <h3 style="margin-bottom: 0.5rem;">Psychadeathic Arts Hub</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Independent Sound Transmissions & Artifacts</p>
+        </div>
+    </section>
+
+    <!-- AUDIO & TRACKLIST SECTION -->
+    <section id="audio" class="section">
+        <div class="section-header">
+            <h2>Audio Transmissions & Tracklist</h2>
+            <p>Independent tracks produced via MPC workflows and field recordings.</p>
+        </div>
+        <div class="tracklist">
+            <div class="track-item">
+                <div class="track-left">
+                    <span class="track-num">01</span>
+                    <div>
+                        <div style="font-weight: 600;">Psychadeathic Transmission // Live Loop 01</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Ambient / Modular Beat</div>
+                    </div>
+                </div>
+                <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="alert('Now playing: Psychadeathic Transmission // Live Loop 01')">Play</button>
+            </div>
+            <div class="track-item">
+                <div class="track-left">
+                    <span class="track-num">02</span>
+                    <div>
+                        <div style="font-weight: 600;">Zero-Point Horizon</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Stem Separation Beat Set</div>
+                    </div>
+                </div>
+                <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="alert('Now playing: Zero-Point Horizon')">Play</button>
+            </div>
+            <div class="track-item">
+                <div class="track-left">
+                    <span class="track-num">03</span>
+                    <div>
+                        <div style="font-weight: 600;">7.83Hz Schumann Resonance Loop</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Sub-Harmonic Soundscape</div>
+                    </div>
+                </div>
+                <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="alert('Now playing: 7.83Hz Schumann Resonance Loop')">Play</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRINT-ON-DEMAND MERCH SECTION -->
+    <section id="merch" class="section">
+        <div class="section-header">
+            <h2>Print-on-Demand Merch</h2>
+            <p>Heavyweight cotton tees and weatherproof sticker packs manufactured on demand.</p>
+        </div>
+        <div class="grid-4">
+            <div class="card">
+                <div>
+                    <h3>S/S Obsidian Tee</h3>
+                    <p>Premium heavyweight cotton screen-printed with custom vector emblem art. Fulfilled via print-on-demand.</p>
+                </div>
+                <div>
+                    <div class="price">$45.00 AUD</div>
+                    <a href="#" class="btn btn-solid" style="width: 100%; text-align: center;" onclick="alert('Redirecting to Print-on-Demand Checkout...')">Order Shirt</a>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>Sovereign Glyph Sticker Pack</h3>
+                    <p>Weatherproof die-cut vinyl stickers featuring core brand iconography and glyphs.</p>
+                </div>
+                <div>
+                    <div class="price">$12.00 AUD</div>
+                    <a href="#" class="btn btn-solid" style="width: 100%; text-align: center;" onclick="alert('Redirecting to Print-on-Demand Checkout...')">Order Pack</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERSISTENT AUDIO PLAYER -->
+    <div class="player-bar">
+        <div class="player-info">
+            <div>
+                <div class="track-title-active">Psychadeathic Transmission // Live Loop 01</div>
+                <div class="track-artist-active">Psychadeathic Arts</div>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="control-btn">⏮</button>
+            <button class="control-btn" onclick="alert('Audio playback active.')">▶</button>
+            <button class="control-btn">⏭</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Psychadeathic Arts (ABN 52 107 159 569). All rights reserved. Stage 1 Launch.</p>
+    </footer>
+
+</body>
+</html>
